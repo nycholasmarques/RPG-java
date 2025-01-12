@@ -15,7 +15,7 @@ public class Potion {
 
     public String showPotion () {
         if (type == "life") {
-            return name + " (restaura " + effect + " de vida" +  " - " + price + " moedas";
+            return name + " (restaura " + effect + " de vida)" +  " - " + price + " moedas";
         } else {
             return name + " (aumenta " + effect + " de força)" +  " - " + price + " moedas";
         }

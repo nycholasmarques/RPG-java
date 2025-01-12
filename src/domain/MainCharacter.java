@@ -1,11 +1,15 @@
 package domain;
 
-public class MainCharacter implements Actions {
+import java.util.Random;
+import java.util.Scanner;
+
+public class MainCharacter {
     private String name;
     private String classOfCharacter;
     private int maxLife = 100;
     private int actualLife = maxLife;
     private int strength;
+    private int difficultyChoose;
 
     public MainCharacter(String name) {
         this.name = name;
@@ -35,6 +39,14 @@ public class MainCharacter implements Actions {
         this.classOfCharacter = classCharacter.getName();
     }
 
+    public int getDifficultyChoose() {
+        return difficultyChoose;
+    }
+
+    public void setDifficultyChoose(int difficultyChoose) {
+        this.difficultyChoose = difficultyChoose;
+    }
+
     public int getMaxLife() {
         return maxLife;
     }
@@ -62,20 +74,53 @@ public class MainCharacter implements Actions {
         this.strength += strength;
     }
 
-    @Override
+    public boolean verifyLife () {
+        if (getActualLife() <= 0) {
+            System.out.println("Você perdeu pra uma linguagem de buxa \n" +
+                    "Javascript te mandou uma mensagem: " +
+                    "Eu te venci, bora larga essa bomba ai de java " +
+                    "e começa um projetin em javascript PURO \n" +
+                    "its over, tente novamente meu mano!");
+            return true;
+        }
+        return false;
+    }
+
     public void attack(Enemy enemy) {
         int damage = enemy.getLife() - getStrength();
         enemy.setLife(damage);
+        System.out.println(ConsoleColor.GREEN.color + getName() + ConsoleColor.RESET.color + " atacou o " + ConsoleColor.RED.color +  enemy.getName() +
+                ConsoleColor.RESET.color + " e causou " + getStrength() + " de dano");
+        System.out.println(ConsoleColor.CYAN.color + "Vida do inimigo: " + enemy.getLife() + ConsoleColor.RESET.color);
     }
 
-    @Override
-    public void attack(MainCharacter mainCharacter) {
+    public boolean defend() {
+        Random random = new Random();
+        Scanner input = new Scanner(System.in);
 
-    }
+        int numberRandom1 = random.nextInt( 9);
+        int numberRandom2 = random.nextInt( 9);
+        int numberRandom3 = random.nextInt( 9);
 
-    @Override
-    public void defend() {
-        System.out.println("VOCÊ TEM 2 a 7 SEGUNDOS PRA ESQUIVAR");
-//        System.out.println("Tecle as letras " + words);
+        System.out.println("Você tem 4 segundos!!!");
+        System.out.println("Digite os seguintes numeros para esquivar: " +
+                numberRandom1 + " - " + numberRandom2 + " - " + numberRandom3);
+
+        long init = System.currentTimeMillis();
+        String dodge = input.next();
+        long end = System.currentTimeMillis();
+        long result = end - init;
+        if (result >= 4000) {
+            System.out.println("Você demorou muito para esquivar");
+            return false;
+        }
+
+        if (Character.getNumericValue(dodge.charAt(0)) == numberRandom1 && Character.getNumericValue(dodge.charAt(1)) == numberRandom2 && Character.getNumericValue(dodge.charAt(2)) == numberRandom3) {
+            System.out.println("Você se esquivou do ataque!");
+            System.out.println(ConsoleColor.CYAN.color + "Sua vida: " + getActualLife() + ConsoleColor.RESET.color);
+            return true;
+        }
+        System.out.println("Você errou a esquiva!");
+        return false;
     }
 }
